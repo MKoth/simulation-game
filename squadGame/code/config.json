@@ -1,0 +1,12 @@
+{
+	"width":1000,
+	"height": 2000,
+	"minGems": 20,
+	"maxGems": 30,
+    "time": 90,
+    "speed":0.1,
+    "playerSize":20,
+    "collectiveSize":20,
+    "player1StartingPoint":{"x":20, "y":20},
+    "player2StartingPoint":{"x":120, "y":20}
+}

@@ -1,0 +1,15 @@
+{
+	"width":1000,
+	"height": 2000,
+	"minPassengers": 20,
+	"maxPassengers": 30,
+    "time": 90,
+    "speed":0.1,
+    "playerSize":20,
+    "roadWidth":30,
+    "passengerSize":20,
+    "player1StartingPoint":{"x":20, "y":20},
+    "player2StartingPoint":{"x":120, "y":20},
+    "player1StartingDirection":"right",
+    "player2StartingDirection":"down"
+}

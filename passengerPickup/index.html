@@ -8,16 +8,19 @@
 <canvas id="game2" style="border: 1px solid #000" width="400" height="400"></canvas>
 <script>
     var config = {
-        "width":400,
-        "height": 400,
-        "minGems": 40,
-        "maxGems": 70,
+        "width":1000,
+        "height": 2000,
+        "minPassengers": 20,
+        "maxPassengers": 30,
         "time": 90,
-        "speed":10,
+        "speed":0.1,
         "playerSize":20,
-        "collectiveSize":20,
+        "roadWidth":30,
+        "passengerSize":20,
         "player1StartingPoint":{"x":20, "y":20},
-        "player2StartingPoint":{"x":20, "y":20}
+        "player2StartingPoint":{"x":120, "y":20},
+        "player1StartingDirection":"right",
+        "player2StartingDirection":"down"
     };
     var game = new Simulation(config, level1, level3);
 

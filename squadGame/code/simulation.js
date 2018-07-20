@@ -65,7 +65,7 @@ function Simulation(config, bot1clb, bot2clb){
     ];
     this.score = [0,0];
     this.direction = [[{down:true}, {right:true}],[{down:true}, {right:true}]];
-    this.directionsArr = [{"up":true},{"down":true},{"left":true},{"right":true}]
+    this.directionsArr = [{"up":true},{"down":true},{"left":true},{"right":true}];
 }
 
 Simulation.prototype.simulate = function(){

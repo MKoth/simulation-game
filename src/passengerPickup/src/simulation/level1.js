@@ -29,4 +29,4 @@ var level1 = function(world, findPathCallback) {
 		return direction;
 	}
 }
-//module.exports = level1;
+module.exports = level1;

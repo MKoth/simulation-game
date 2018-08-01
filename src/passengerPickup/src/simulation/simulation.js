@@ -1,4 +1,4 @@
-function Simulation(config, bot1clb, bot2clb){
+module.exports = function Simulation(config, bot1clb, bot2clb){
     this.config = config;
     this.bot1clb = bot1clb;
     this.bot2clb = bot2clb;
@@ -189,7 +189,7 @@ Simulation.prototype.simulate            = function(){
     
     this.generateCollectives();
     this.clearPath();
-    return {player1:this.score[0],player2:this.score[1], bots: this.bots, collectives: this.collectives, map: this.map[0]};
+    return {player1:this.score[0],player2:this.score[1], bots: this.bots, collectives: this.collectives, map: this.map[0], direction: this.direction};
 }
 Simulation.prototype.generateMap         = function(){
     var mapHeight = Math.ceil(this.config.height/this.config.roadWidth);

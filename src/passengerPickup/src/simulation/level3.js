@@ -43,3 +43,4 @@ var level3 = function(world, findPathCallback) {
 		return direction;
 	}
 }
+module.exports = level3;

@@ -28,4 +28,4 @@ var control = function(world){
     return world.direction;
     //return {right:true};
 }
-//module.exports = level1;
+module.exports = control;

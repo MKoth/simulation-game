@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Gnome1 from '../Components/Characters/Gnome1';
-import Gnome2 from '../Components/Characters/Gnome2';
-import Blonde from '../Components/Characters/Blonde';
-import Brunette from '../Components/Characters/Brunette';
-import Drone1 from '../Components/Characters/Drone1';
-import Drone2 from '../Components/Characters/Drone2';
-import Drone3 from '../Components/Characters/Drone3';
-import BlackCar from '../Components/Characters/CarBlack';
-import BlueCar from '../Components/Characters/CarBlue';
-import OrangeCar from '../Components/Characters/CarOrange';
-import WhiteCar from '../Components/Characters/CarWhite';
+import Gnome1 from './Components/Characters/Gnome1';
+import Gnome2 from './Components/Characters/Gnome2';
+import Blonde from './Components/Characters/Blonde';
+import Brunette from './Components/Characters/Brunette';
+import Drone1 from './Components/Characters/Drone1';
+import Drone2 from './Components/Characters/Drone2';
+import Drone3 from './Components/Characters/Drone3';
+import BlackCar from './Components/Characters/CarBlack';
+import BlueCar from './Components/Characters/CarBlue';
+import OrangeCar from './Components/Characters/CarOrange';
+import WhiteCar from './Components/Characters/CarWhite';
 import Store from '../store';
+import config from '../simulation/config.json';
 import { observer } from 'mobx-react';
 
 class Bot extends Component {
@@ -22,7 +23,6 @@ class Bot extends Component {
   func = false;
   constructor(props) {
     super(props);
-    this.loop = this.loop.bind(this);
   }
   render() {
     switch (this.props.type) {
@@ -31,6 +31,8 @@ class Bot extends Component {
           <Gnome1
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'gnome2':
@@ -38,6 +40,8 @@ class Bot extends Component {
           <Gnome2
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'blonde':
@@ -45,6 +49,8 @@ class Bot extends Component {
           <Blonde
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'brunette':
@@ -52,6 +58,8 @@ class Bot extends Component {
           <Brunette
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'drone1':
@@ -59,6 +67,8 @@ class Bot extends Component {
           <Drone1
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'drone2':
@@ -66,6 +76,8 @@ class Bot extends Component {
           <Drone2
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'drone3':
@@ -73,6 +85,8 @@ class Bot extends Component {
           <Drone3
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
       case 'black-car':
@@ -80,6 +94,8 @@ class Bot extends Component {
           <BlackCar
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
        </div>;
       case 'blue-car':
@@ -87,6 +103,8 @@ class Bot extends Component {
           <BlueCar
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
       </div>;
       case 'orange-car':
@@ -94,6 +112,8 @@ class Bot extends Component {
           <OrangeCar
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
        </div>;
       case 'white-car':
@@ -101,6 +121,8 @@ class Bot extends Component {
           <WhiteCar
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
        </div>;
       default:
@@ -108,6 +130,8 @@ class Bot extends Component {
           <Gnome1
             position={Store.position[this.props.gameId][this.props.charId]}
             direction={Store.direction[this.props.gameId][this.props.charId]}
+            scale={this.context.scale}
+            size={config.playerSize}
           />
         </div>;
     }

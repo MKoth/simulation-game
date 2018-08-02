@@ -25,8 +25,8 @@ class Gnome2 extends Component {
   }
   getWrapperStyles() {
     this.getAnimationState();
-    var targetX = this.props.position.x;
-    var targetY = this.props.position.y;
+    var targetX = this.props.position.x*this.props.scale;;
+    var targetY = this.props.position.y*this.props.scale;;
     return {
       position: 'absolute',
       transform: `translate(${targetX}px, ${targetY}px)`,
@@ -43,7 +43,7 @@ class Gnome2 extends Component {
           src={img}
           ticksPerFrame={4}
           state={this.animState}
-          scale={1}
+          scale={(this.props.size/64)*this.props.scale}
           steps={[7, 7, 7, 7, 0]}
         />
       </div>

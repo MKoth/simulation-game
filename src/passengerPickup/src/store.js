@@ -23,9 +23,10 @@ class passengerStore {
         });
     }
     updatePosition(gameId, playerId, newPosition, offset){
-        if(this.position[gameId][playerId].x - newPosition.x >= offset || this.position[gameId][playerId].y - newPosition.y >= offset){
+        if(Math.abs(this.position[gameId][playerId].x - newPosition.x) >= offset || Math.abs(this.position[gameId][playerId].y - newPosition.y) >= offset){
             this.position[gameId][playerId] = newPosition;
         }
+        //this.position[gameId][playerId] = newPosition;
     }
     updatePassengers(gameId, passengersArr){
         if(this.passengers[gameId].length !== passengersArr.length){
@@ -33,13 +34,23 @@ class passengerStore {
         }
     }
     updateDirection(gameId, playerId, newDirection){
-        if(this.direction[gameId][playerId]!=newDirection){
-            this.direction[gameId][playerId]=newDirection;
+        if(newDirection.right)
+            var direction = 'right';
+        else if(newDirection.left)
+            var direction = 'left';
+        else if(newDirection.up)
+            var direction = 'up';
+        else if(newDirection.down)
+            var direction = 'down';
+        
+        
+        if(this.direction[gameId][playerId]!=direction){
+            this.direction[gameId][playerId]=direction;
         }
     }
     updateDestination(gameId, playerId, destination){
-        if(destination[gameId][playerId]!==destination){
-            destination[gameId][playerId]=destination;
+        if(this.destination[gameId][playerId]!==destination){
+            this.destination[gameId][playerId]=destination;
         }
     }
     updateScore(gameId, score){

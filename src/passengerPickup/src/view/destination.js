@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import img1 from '../assets/destination/PickupGreen.png';
 import img2 from '../assets/destination/PickupViolet.png';
 import Store from '../store';
-import Sprite from '../Components/Characters/Sprite';
+import Sprite from './Components/Characters/Sprite';
 import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
+import config from '../simulation/config.json';
 
 class Destination extends Component {
+    static contextTypes = {
+        scale: PropTypes.number
+    };
     getWrapperStyles(destination) {
-        var targetX = destination.takeofX;
-        var targetY = destination.takeofY;
+        var targetX = destination.takeofX*this.context.scale;
+        var targetY = destination.takeofY*this.context.scale;
         return {
             position: 'absolute',
             transform: `translate(${targetX}px, ${targetY}px)`,
             transformOrigin: 'left top',
-            width: '30px',
-            height: '30px'
+            width: config.passengerSize*this.context.scale+'px',
+            height: config.passengerSize*this.context.scale+'px'
         };
     }
     render() {
@@ -28,7 +33,7 @@ class Destination extends Component {
                         src={img1}
                         ticksPerFrame={4}
                         state={0}
-                        scale={0.3}
+                        scale={(config.passengerSize/102)*this.context.scale}
                         steps={[7]}
                     />
                 </div>}
@@ -40,7 +45,7 @@ class Destination extends Component {
                         src={img2}
                         ticksPerFrame={4}
                         state={0}
-                        scale={0.3}
+                        scale={(config.passengerSize/102)*this.context.scale}
                         steps={[7]}
                     />
                 </div>}

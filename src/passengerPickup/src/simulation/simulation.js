@@ -1,4 +1,4 @@
-module.exports = function Simulation(config, bot1clb, bot2clb){
+function Simulation(config, bot1clb, bot2clb){
     this.config = config;
     this.bot1clb = bot1clb;
     this.bot2clb = bot2clb;
@@ -189,6 +189,7 @@ Simulation.prototype.simulate            = function(){
     
     this.generateCollectives();
     this.clearPath();
+    
     return {player1:this.score[0],player2:this.score[1], bots: this.bots, collectives: this.collectives, map: this.map[0], direction: this.direction};
 }
 Simulation.prototype.generateMap         = function(){
@@ -204,7 +205,6 @@ Simulation.prototype.generateMap         = function(){
             this.map[1][i] = new Array(mapWidth);
         }
         for(var j=0;j<mapWidth;j++){
-            
             if(this.mapSchema[i][j]){
                 this.map[0][i][j] = new Cell(j,i);
                 this.map[1][i][j] = new Cell(j,i);
@@ -472,3 +472,4 @@ Passenger.prototype.setRandomPos = function(arr, width){
     this.takeofX = this.takeofX*width;
     this.takeofY = this.takeofY*width;
 }
+module.exports = Simulation;

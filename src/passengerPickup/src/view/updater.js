@@ -9,8 +9,7 @@ import Store from '../store';
 
 class Updater extends Component {
     static contextTypes = {
-        loop: PropTypes.object,
-        scale: PropTypes.number,
+        loop: PropTypes.object
     };
     constructor(props) {
         super(props);
@@ -18,17 +17,17 @@ class Updater extends Component {
         this.simulation = new Simulation(config,level1,level3);
     }
     loop = () => {
-        console.log('loop');
         var data = this.simulation.simulate();
+        //console.log(data.bots[0][0].x);
         var gamesQount = 2;
         var charQount = 2;
-        for(var i;i<gamesQount;i++){
+        for(var i=0;i<gamesQount;i++){
             Store.updatePassengers(i, data.collectives[i]);
             //Store.updateScore(i, data.);
-            for(var j;j<charQount;j++){
+            for(var j=0;j<charQount;j++){
                 Store.updatePosition(i, j, data.bots[i][j], 1);
                 Store.updateDirection(i, j, data.direction[i][j]);
-                Store.updateDestination(i, l, data.bots[i][j].passenger);
+                Store.updateDestination(i, j, data.bots[i][j].passenger);
             }
         }
     }
@@ -38,4 +37,9 @@ class Updater extends Component {
     componentWillUnmount() {
         this.context.loop.unsubscribe(this.loopID);
     }
-}
+    render() {
+        return (<div></div>)
+    }
+} 
+
+export default observer(Updater);

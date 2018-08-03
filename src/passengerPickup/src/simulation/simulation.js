@@ -190,7 +190,7 @@ Simulation.prototype.simulate            = function(){
     this.generateCollectives();
     this.clearPath();
     
-    return {player1:this.score[0],player2:this.score[1], bots: this.bots, collectives: this.collectives, map: this.map[0], direction: this.direction};
+    return {player1:this.score[0], player2:this.score[1], score:this.score, bots: this.bots, collectives: this.collectives, map: this.map[0], direction: this.direction};
 }
 Simulation.prototype.generateMap         = function(){
     var mapHeight = Math.ceil(this.config.height/this.config.roadWidth);

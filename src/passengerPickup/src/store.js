@@ -1,25 +1,28 @@
 import { observable, computed, extendObservable } from 'mobx';
-import squadConfig from './simulation/config.json';
+import config from './simulation/config.json';
 
 class passengerStore {
     constructor() {
         extendObservable(this, {
-            time: squadConfig.time,
+            time: config.time,
+            prevTime: Date.now(),
             position: [
                 [
-                    squadConfig.player1StartingPoint,
-                    squadConfig.player2StartingPoint
+                    config.player1StartingPoint,
+                    config.player2StartingPoint
                 ],
                 [
-                    squadConfig.player1StartingPoint,
-                    squadConfig.player2StartingPoint
+                    config.player1StartingPoint,
+                    config.player2StartingPoint
                 ]
             ],
             direction: [['right','down'], ['right','down']],
             passengers: [[], []],
             destination: [[null, null], [null, null]],
             score: [0, 0],
-            mode: 'play'
+            mode: 'play',
+            player1Func: undefined,
+            player2Func: undefined
         });
     }
     updatePosition(gameId, playerId, newPosition, offset){
@@ -54,8 +57,10 @@ class passengerStore {
         }
     }
     updateScore(gameId, score){
-        if(this.score[gameId]!==score)
+        if(this.score[gameId]!==score){
+            
             this.score[gameId]=score;
+        }
     }
 }
 

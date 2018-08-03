@@ -25,8 +25,8 @@ class Drone3 extends Component {
   }
   getWrapperStyles() {
     this.getAnimationState();
-    var targetX = this.props.position.x;
-    var targetY = this.props.position.y;
+    var targetX = this.props.position.x*this.props.scale;
+    var targetY = this.props.position.y*this.props.scale;
     return {
       position: 'absolute',
       transform: `translate(${targetX}px, ${targetY}px)`,
@@ -45,7 +45,7 @@ class Drone3 extends Component {
           src={img}
           ticksPerFrame={4}
           state={this.animState}
-          scale={0.5}
+          scale={(this.props.size/160)*this.props.scale}
           steps={[0, 0, 0, 0]}
         />
       </div>

@@ -41,7 +41,6 @@ function Simulation(config, bot1clb, bot2clb){
     if(!this.config.player2StartingDirection||typeof this.config.player2StartingDirection!="string"){
         this.config.player2StartingDirection = "down";
     }
-
     this.collectives = [[],[]];
     this.bots = [
         [
@@ -74,6 +73,7 @@ function Simulation(config, bot1clb, bot2clb){
         ]
     ];
     this.score = [0,0];
+    this.controlInfo = {keyPressed:["up", "up"], current:[0,0]};
     this.direction = [[{down:true}, {right:true}],[{down:true}, {right:true}]];
     this.directionsArr = [{"up":true},{"down":true},{"left":true},{"right":true}];
     this.mapSchema = [
@@ -106,6 +106,28 @@ function Simulation(config, bot1clb, bot2clb){
     ];
     this.generateMap();
     this.generateCollectives();
+
+    document.addEventListener('keydown', (e) => {
+        //console.log(this.score);
+        var gamesQuant = 2;
+        for(var gameId = 0; gameId < gamesQuant; gameId++){
+            if(e.key==this.config['player'+(gameId+1)+'Keys'].up){
+                this.controlInfo.keyPressed[gameId] = "up";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].down){
+                this.controlInfo.keyPressed[gameId] = "down";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].left){
+                this.controlInfo.keyPressed[gameId] = "left";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].right){
+                this.controlInfo.keyPressed[gameId] = "right";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].switch){
+                this.controlInfo.current[gameId]=(this.controlInfo.current[gameId]==0?1:0);
+            }
+        }
+    });
 }
 Simulation.prototype.clearPath = function(){
     var botsQuant = 2;
@@ -132,10 +154,18 @@ Simulation.prototype.clearPath = function(){
     }
 }
 Simulation.prototype.simulate            = function(){
-    var bot1_1Data = {player:this.bots[0][0], collectives:this.collectives[0], direction: this.direction[0][0], index:0};
-    var bot1_2Data = {player:this.bots[0][1], collectives:this.collectives[0], direction: this.direction[0][1], index:1};
-    var bot2_1Data = {player:this.bots[1][0], collectives:this.collectives[1], direction: this.direction[1][0], index:0};
-    var bot2_2Data = {player:this.bots[1][1], collectives:this.collectives[1], direction: this.direction[1][1], index:1};
+    var bot1_1Data = {
+        player:this.bots[0][0], collectives:this.collectives[0], direction: this.direction[0][0], index:0, map: this.map[0], config: this.config, controlInfo: this.controlInfo, gameId: 0
+    };
+    var bot1_2Data = {
+        player:this.bots[0][1], collectives:this.collectives[0], direction: this.direction[0][1], index:1, map: this.map[0], config: this.config, controlInfo: this.controlInfo, gameId: 0
+    };
+    var bot2_1Data = {
+        player:this.bots[1][0], collectives:this.collectives[1], direction: this.direction[1][0], index:0, map: this.map[1], config: this.config, controlInfo: this.controlInfo, gameId: 1
+    };
+    var bot2_2Data = {
+        player:this.bots[1][1], collectives:this.collectives[1], direction: this.direction[1][1], index:1, map: this.map[1], config: this.config, controlInfo: this.controlInfo, gameId: 1
+    };
     this.direction[0][0]=this.bot1clb(bot1_1Data,
         (passenger, locationType)=>{
             if(locationType == "passengerLocation")

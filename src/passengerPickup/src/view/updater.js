@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import Simulation from '../simulation/simulation';
+import control from '../simulation/control';
 import level1 from '../simulation/level1';
 import level2 from '../simulation/level2';
 import level3 from '../simulation/level3';
@@ -20,10 +21,13 @@ class Updater extends Component {
         this.changePlayer1Func = this.changePlayer1Func.bind(this);
         this.changePlayer2Func = this.changePlayer2Func.bind(this);
         Store.player1Func = level3;
-        Store.player2Func = level1;
+        Store.player2Func = control;
         if(this.getURLParameters('player1')){
             var funcName = this.getURLParameters('player1');
             switch(funcName){
+                case 'control':
+                    Store.player1Func = control;
+                    break;
                 case 'level1':
                     Store.player1Func = level1;
                     break;
@@ -40,6 +44,9 @@ class Updater extends Component {
         if(this.getURLParameters('player2')){
             var funcName = this.getURLParameters('player2');
             switch(funcName){
+                case 'control':
+                    Store.player2Func = control;
+                    break;
                 case 'level1':
                     Store.player2Func = level1;
                     break;
@@ -50,7 +57,7 @@ class Updater extends Component {
                     Store.player2Func = level3;
                     break;
                 default:
-                    break
+                    break;
             }
         }
         this.simulation = new Simulation(config,Store.player1Func,Store.player2Func);
@@ -98,7 +105,6 @@ class Updater extends Component {
                 else
                     arrParamValues[i] = "No Value";
             }
-
             for (i=0; i<arrURLParams.length; i++)
             {
                 if (arrParamNames[i] == paramName)
@@ -167,6 +173,7 @@ class Updater extends Component {
             <p style={{position:'absolute', left:0, top:0, margin:0, zIndex:100}}>
                 Player 1 score: {Store.score[0]}
                 <select value={Store.player1Func} onChange={this.changePlayer1Func}>
+                    <option value={control}>Manual control</option>
                     <option value={level1}>Level 1</option>
                     <option value={level2}>Level 2</option>
                     <option value={level3}>Level 3</option>
@@ -174,6 +181,7 @@ class Updater extends Component {
             </p>
             <p style={{position:'absolute', right:0, top:0, margin:0, zIndex:100}}>
                 <select value={Store.player2Func} onChange={this.changePlayer2Func}>
+                    <option value={control}>Manual control</option>
                     <option value={level1}>Level 1</option>
                     <option value={level2}>Level 2</option>
                     <option value={level3}>Level 3</option>

@@ -12,7 +12,6 @@ function createLink(text){
 
 
 let simulate = function(botFiles, config){
-    console.log(config);
     //let botFiles = ["level1.js", "level2.js", "level3.js"];
     let tableStart = "<table cellspacing='1' cellpadding='10' border='1' align='center'>";
     let tableCol = {};

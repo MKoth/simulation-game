@@ -96,13 +96,13 @@ var bot = function(world) {
 	else if(player.path.length>0){
 		//going to the next cell of current path (once bot reaches this point it will be deleted automaticly)
 		var point = player.path[player.path.length-1];
-		if (point.x*30 - player.x > 0) {
+		if (point.x*world.config.roadWidth - player.x > 0) {
 			var direction = { left: false, right: true, up: false, down: false };
-		} else if (point.x*30 - player.x < 0) {
+		} else if (point.x*world.config.roadWidth - player.x < 0) {
 			var direction = { left: true, right: false, up: false, down: false };
-		} else if (point.y*30 - player.y > 0) {
+		} else if (point.y*world.config.roadWidth - player.y > 0) {
 			var direction = { left: false, right: false, up: false, down: true };
-		} else if (point.y*30 - player.y < 0) {
+		} else if (point.y*world.config.roadWidth - player.y < 0) {
 			var direction = { left: false, right: false, up: true, down: false };
 		}
 		return direction;

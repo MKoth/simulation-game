@@ -12,6 +12,9 @@ class Tournament extends Component {
             presult:"",
             showTable:true
         }
+        Object.defineProperty(level1, "name", { value: "level1" });
+        Object.defineProperty(level2, "name", { value: "level2" });
+        Object.defineProperty(level3, "name", { value: "level3" });
     }
     render() {
         return (

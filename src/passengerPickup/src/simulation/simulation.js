@@ -134,15 +134,6 @@ Simulation.prototype.clearPath = function(){
     var gamesQuant = 2;
     for(var gameId = 0; gameId < gamesQuant; gameId++){
         for(var botId = 0; botId < botsQuant; botId++){
-            /*var rowId = Math.floor( (this.bots[gameId][botId].y-1)/this.config.roadWidth );
-            var colId = Math.floor( this.bots[gameId][botId].x/this.config.roadWidth );
-            if(
-                this.bots[gameId][botId].path.length>0&&
-                this.bots[gameId][botId].path[this.bots[gameId][botId].path.length-1].y==rowId&&
-                this.bots[gameId][botId].path[this.bots[gameId][botId].path.length-1].x==colId
-            ){
-                this.bots[gameId][botId].path.pop();
-            }*/
             if(
                 this.bots[gameId][botId].path.length>0&&
                 this.bots[gameId][botId].x==this.bots[gameId][botId].path[this.bots[gameId][botId].path.length-1].x*this.config.roadWidth&&
@@ -166,46 +157,10 @@ Simulation.prototype.simulate            = function(){
     var bot2_2Data = {
         player:this.bots[1][1], collectives:this.collectives[1], direction: this.direction[1][1], index:1, map: this.map[1], config: this.config, controlInfo: this.controlInfo, gameId: 1
     };
-    this.direction[0][0]=this.bot1clb(bot1_1Data,
-        (passenger, locationType)=>{
-            if(locationType == "passengerLocation")
-                var pointB = {x:Math.floor(passenger.x/this.config.roadWidth), y:Math.floor(passenger.y/this.config.roadWidth)};
-            else
-                var pointB = {x:Math.floor(passenger.takeofX/this.config.roadWidth), y:Math.floor(passenger.takeofY/this.config.roadWidth)};
-            var pointA = {x:Math.floor( this.bots[0][0].x/this.config.roadWidth), y:Math.floor( (this.bots[0][0].y)/this.config.roadWidth )};
-            this.bots[0][0].path = this.findShortestPath(this.map[0], pointA, pointB, 0);
-        }
-    );
-    this.direction[0][1]=this.bot1clb(bot1_2Data,
-        (passenger, locationType)=>{
-            if(locationType == "passengerLocation")
-                var pointB = {x:Math.floor(passenger.x/this.config.roadWidth), y:Math.floor(passenger.y/this.config.roadWidth)};
-            else
-                var pointB = {x:Math.floor(passenger.takeofX/this.config.roadWidth), y:Math.floor(passenger.takeofY/this.config.roadWidth)};
-            var pointA = {x:Math.floor( this.bots[0][1].x/this.config.roadWidth), y:Math.floor( (this.bots[0][1].y)/this.config.roadWidth )};
-            this.bots[0][1].path = this.findShortestPath(this.map[0], pointA, pointB, 1);
-        }
-    );
-    this.direction[1][0]=this.bot2clb(bot2_1Data,
-        (passenger, locationType)=>{
-            if(locationType == "passengerLocation")
-                var pointB = {x:Math.floor(passenger.x/this.config.roadWidth), y:Math.floor(passenger.y/this.config.roadWidth)};
-            else
-                var pointB = {x:Math.floor(passenger.takeofX/this.config.roadWidth), y:Math.floor(passenger.takeofY/this.config.roadWidth)};
-            var pointA = {x:Math.floor( this.bots[1][0].x/this.config.roadWidth), y:Math.floor( (this.bots[1][0].y)/this.config.roadWidth )};
-            this.bots[1][0].path = this.findShortestPath(this.map[1], pointA, pointB, 0);
-        }
-    );
-    this.direction[1][1]=this.bot2clb(bot2_2Data,
-        (passenger, locationType)=>{
-            if(locationType == "passengerLocation")
-                var pointB = {x:Math.floor(passenger.x/this.config.roadWidth), y:Math.floor(passenger.y/this.config.roadWidth)};
-            else
-                var pointB = {x:Math.floor(passenger.takeofX/this.config.roadWidth), y:Math.floor(passenger.takeofY/this.config.roadWidth)};
-            var pointA = {x:Math.floor( this.bots[1][1].x/this.config.roadWidth), y:Math.floor( (this.bots[1][1].y)/this.config.roadWidth )};
-            this.bots[1][1].path = this.findShortestPath(this.map[1], pointA, pointB, 1);
-        }
-    );
+    this.direction[0][0]=this.bot1clb(bot1_1Data);
+    this.direction[0][1]=this.bot1clb(bot1_2Data);
+    this.direction[1][0]=this.bot2clb(bot2_1Data);
+    this.direction[1][1]=this.bot2clb(bot2_2Data);
     var botsQuant = 2;
     var gamesQuant = 2;
     for(var gameId = 0; gameId < gamesQuant; gameId++){
@@ -216,7 +171,6 @@ Simulation.prototype.simulate            = function(){
     }
     this.getTakeOfPassengers();
     this.moveCharacters();
-    
     this.generateCollectives();
     this.clearPath();
     
@@ -485,17 +439,17 @@ function Passenger(){
     this.takeofY = 0;
 }
 Passenger.prototype.setRandomPos = function(arr, width){
-    this.x = Math.floor(Math.random()*arr[0].length);
-    this.y = Math.floor(Math.random()*arr.length);
+    this.x = Math.floor(Math.random()*(arr[0].length-1));
+    this.y = Math.floor(Math.random()*(arr.length-1));
     while(!arr[this.y]||!arr[this.y][this.x]){
-        this.x = Math.floor(Math.random()*arr[0].length);
-        this.y = Math.floor(Math.random()*arr.length);
+        this.x = Math.floor(Math.random()*(arr[0].length-1));
+        this.y = Math.floor(Math.random()*(arr.length-1));
     }
-    this.takeofX = Math.floor(Math.random()*arr[0].length);
-    this.takeofY = Math.floor(Math.random()*arr.length);
+    this.takeofX = Math.floor(Math.random()*(arr[0].length-1));
+    this.takeofY = Math.floor(Math.random()*(arr.length-1));
     while(!arr[this.takeofY]||!arr[this.takeofY][this.takeofX]){
-        this.takeofX = Math.floor(Math.random()*arr[0].length);
-        this.takeofY = Math.floor(Math.random()*arr.length);
+        this.takeofX = Math.floor(Math.random()*(arr[0].length-1));
+        this.takeofY = Math.floor(Math.random()*(arr.length-1));
     }
     this.x = this.x*width;
     this.y = this.y*width;

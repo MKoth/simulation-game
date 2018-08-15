@@ -8,6 +8,11 @@ import level2 from '../simulation/level2';
 import level3 from '../simulation/level3';
 import config from '../simulation/config.json';
 import Store from '../store';
+import brace from 'brace';
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript';
+import 'brace/mode/python';
+import 'brace/theme/github';
 
 class Updater extends Component {
     static contextTypes = {
@@ -37,6 +42,9 @@ class Updater extends Component {
                 case 'level3':
                     Store.player1Func = level3;
                     break;
+                case 'custom code':
+                    Store.player1Func = Store.func;
+                    break;
                 default:
                     break
             }
@@ -55,6 +63,9 @@ class Updater extends Component {
                     break;
                 case 'level3':
                     Store.player2Func = level3;
+                    break;
+                case 'custom code':
+                    Store.player2Func = Store.func;
                     break;
                 default:
                     break;
@@ -83,6 +94,50 @@ class Updater extends Component {
                     Store.updateDestination(i, j, data.bots[i][j].passenger);
                 }
             }
+        }
+        if(Store.needToRestartGame){
+            var el1 = document.getElementById("player1Select");
+            var val1 = el1.options[el1.selectedIndex].value;
+            var el2 = document.getElementById("player2Select");
+            var val2 = el2.options[el2.selectedIndex].value;
+            this.setPlayer(val1,1);
+            this.setPlayer(val2,2);
+            this.restartGame();
+            Store.needToRestartGame = false;
+        }
+    }
+    setPlayer(value, playerId){
+        switch(value){
+            case 'level1':
+                if(playerId==1)
+                    Store.player1Func = level1;
+                else
+                    Store.player2Func = level1;
+                break;
+            case 'level2':
+                if(playerId==1)
+                    Store.player1Func = level2;
+                else
+                    Store.player2Func = level2;
+                break;
+            case 'level3':
+                if(playerId==1)
+                    Store.player1Func = level3;
+                else
+                    Store.player2Func = level3;
+                break;
+            case 'custom code':
+                if(playerId==1)
+                    Store.player1Func = Store.func;
+                else
+                    Store.player2Func = Store.func;
+                break;
+            case 'manual control':
+                if(playerId==1)
+                    Store.player1Func = control;
+                else
+                    Store.player2Func = control;
+                break;
         }
     }
     getURLParameters(paramName)
@@ -116,12 +171,58 @@ class Updater extends Component {
             return false;
         }
     }
+
     changePlayer1Func(e){
-        Store.player1Func = eval("("+e.target.value+")");
+        /*if(e.target.value!=="Custom code")
+            Store.player1Func = eval("("+e.target.value+")");
+        else
+            Store.player1Func = Store.func;*/
+        switch(e.target.value){
+            case 'level1':
+                Store.player1Func = level1;
+                break;
+            case 'level2':
+                Store.player1Func = level2;
+                break;
+            case 'level3':
+                Store.player1Func = level2;
+                break;
+            case 'custom code':
+                if(typeof Store.func == 'string')
+                    Store.func = eval("("+Store.func+")");
+                Store.player1Func = Store.func;
+                break;
+            case 'manual control':
+                Store.player1Func = control;
+                break;
+        }
         this.restartGame();
     }
     changePlayer2Func(e){
-        Store.player2Func = eval("("+e.target.value+")");
+        /*if(e.target.value!=="Custom code")
+            Store.player2Func = eval("("+e.target.value+")");
+        else
+            Store.player2Func = Store.func;*/
+        //Store.player2Func = eval(e.target.value);
+        switch(e.target.value){
+            case 'level1':
+                Store.player2Func = level1;
+                break;
+            case 'level2':
+                Store.player2Func = level2;
+                break;
+            case 'level3':
+                Store.player2Func = level2;
+                break;
+            case 'custom code':
+                if(typeof Store.func == 'string')
+                    Store.func = eval("("+Store.func+")");
+                Store.player2Func = Store.func;
+                break;
+            case 'manual control':
+                Store.player2Func = control;
+                break;
+        }
         this.restartGame();
     }
     pauseResumeGame(){
@@ -172,19 +273,21 @@ class Updater extends Component {
             </div>}
             <p style={{position:'absolute', left:0, top:0, margin:0, zIndex:100}}>
                 Player 1 score: {Store.score[0]}
-                <select value={Store.player1Func} onChange={this.changePlayer1Func}>
-                    <option value={control}>Manual control</option>
-                    <option value={level1}>Level 1</option>
-                    <option value={level2}>Level 2</option>
-                    <option value={level3}>Level 3</option>
+                <select id={"player1Select"} value={Store.player1ControlSelected} onChange={this.changePlayer1Func}>
+                    <option value={"custom code"}>Custom code</option>
+                    <option value={"manual control"}>Manual control</option>
+                    <option value={"level1"}>Level 1</option>
+                    <option value={"level2"}>Level 2</option>
+                    <option value={"level3"}>Level 3</option>
                 </select>
             </p>
             <p style={{position:'absolute', right:0, top:0, margin:0, zIndex:100}}>
-                <select value={Store.player2Func} onChange={this.changePlayer2Func}>
-                    <option value={control}>Manual control</option>
-                    <option value={level1}>Level 1</option>
-                    <option value={level2}>Level 2</option>
-                    <option value={level3}>Level 3</option>
+                <select id={"player2Select"} value={Store.player2ControlSelected} onChange={this.changePlayer2Func}>
+                    <option value={"custom code"}>Custom code</option>
+                    <option value={"manual control"}>Manual control</option>
+                    <option value={"level1"}>Level 1</option>
+                    <option value={"level2"}>Level 2</option>
+                    <option value={"level3"}>Level 3</option>
                 </select>
                 Player 2 score: {Store.score[1]}
             </p>

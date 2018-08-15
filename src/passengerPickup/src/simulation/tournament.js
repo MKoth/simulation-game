@@ -4,6 +4,7 @@ import level3 from './level3';
 import config from './config.json';
 import React, { Component } from 'react';
 import tableResult from './table-result';
+import Store from '../store';
 
 class Tournament extends Component {
     constructor(){
@@ -28,6 +29,16 @@ class Tournament extends Component {
                         this.setState({presult : result, showTable: true});
                     }}
                     >Run tournament</button>
+                    <button class="control-btn active"  onClick={()=>{
+                        /*tournamentSimulate.default().then((result)=>{
+                            this.setState({presult : result, showTable: true});
+                        });*/
+                        if(typeof Store.func == 'string')
+                            Store.func = eval("("+Store.func+")");
+                        var result = tableResult([Store.func,level1,level2,level3], config);
+                        this.setState({presult : result, showTable: true});
+                    }}
+                    >Custom code tournament</button>
                     <button class="control-btn active" onClick={()=>{
                         this.setState({showTable: !this.state.showTable});
                     }}>Hide tournament</button>

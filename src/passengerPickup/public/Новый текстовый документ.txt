@@ -1,0 +1,5 @@
+todos:
+1. Change value in options for select
+2. Add button to run tournament between level 1-3 and custom code and make it working
+3. Fix bug with table writing if there is any
+4. Transfere level3 javascript code into python and make it default

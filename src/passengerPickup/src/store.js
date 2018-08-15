@@ -1,5 +1,6 @@
 import { observable, computed, extendObservable } from 'mobx';
 import config from './simulation/config.json';
+import {defaultJavascriptFunctionCode} from './view/Components/defaultCode';
 
 class passengerStore {
     constructor() {
@@ -22,7 +23,11 @@ class passengerStore {
             score: [0, 0],
             mode: 'play',
             player1Func: undefined,
-            player2Func: undefined
+            player2Func: undefined,
+            func: defaultJavascriptFunctionCode,
+            needToRestartGame: false,
+            player1ControlSelected: "level3",
+            player2ControlSelected:"manual control"
         });
     }
     updatePosition(gameId, playerId, newPosition, offset){

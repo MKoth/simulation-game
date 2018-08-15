@@ -8,7 +8,9 @@ import Road from './road';
 import Passengers from './passengers';
 import Destinations from './destination';
 import Updater from './updater.js';
-import './style.css'
+import './style.css';
+
+import CodeEditor from './code-editor';
 
 export default class App extends Component {
     render() {
@@ -34,6 +36,7 @@ export default class App extends Component {
                     <Character gameId={1} charId={1} type={'blue-car'}></Character>
                 </Stage>
             </div>
+            <CodeEditor></CodeEditor>
         </Loop>
     }
 }

@@ -21,6 +21,7 @@ let simulate = function(botFiles, config){
     const Simulation = require("./simulation.js");
     var player1Index = 0;
     var player2Index = 0;
+    var qount = 0;
     for (let botFile1 of botFiles){
         player1Index++;
         player2Index = 0;
@@ -28,6 +29,7 @@ let simulate = function(botFiles, config){
             player2Index++;
             if(botFile1==botFile2)
                 continue;
+            qount++;
             var time = config.time*60;
             var result;
             var simulation = new Simulation(config,botFile1,botFile2);
@@ -78,7 +80,8 @@ let simulate = function(botFiles, config){
     //console.log(sum);
     //console.log(order);
     tableStart += "<tr><td colspan='2' align='center'>Bot</td>";
-    for(var i=0; i<botFiles.length;i++){
+    //for(var i=0; i<botFiles.length;i++){
+    for(var i=0; i<qount/2;i++){
         tableStart += "<td colspan='2' align='center'>"+(i+1)+"</td>";
     }
     tableStart += "<td>Total</td><td>Rank</td>";

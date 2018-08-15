@@ -144,6 +144,31 @@ Simulation.prototype.clearPath = function(){
         }
     }
 }
+Simulation.prototype.getDirections       = function(direction){
+    var botsQuant = 2;
+    var gamesQuant = 2;
+    for(var gameId = 0; gameId < gamesQuant; gameId++){
+        for(var botId = 0; botId < botsQuant; botId++){
+            if(typeof direction[gameId][botId] === 'string'){
+                switch(direction[gameId][botId].toUpperCase()){
+                    case 'LEFT':
+                        direction[gameId][botId] = {left:true};
+                        break;
+                    case 'RIGHT':
+                        direction[gameId][botId] = {right:true};
+                        break;
+                    case 'UP':
+                        direction[gameId][botId] = {up:true};
+                        break;
+                    case 'DOWN':
+                        direction[gameId][botId] = {down:true};
+                        break;
+                }
+            }
+        }
+    }
+    return direction;
+}
 Simulation.prototype.simulate            = function(){
     var bot1_1Data = {
         player:this.bots[0][0], collectives:this.collectives[0], direction: this.direction[0][0], index:0, map: this.map[0], config: this.config, controlInfo: this.controlInfo, gameId: 0
@@ -161,6 +186,7 @@ Simulation.prototype.simulate            = function(){
     this.direction[0][1]=this.bot1clb(bot1_2Data);
     this.direction[1][0]=this.bot2clb(bot2_1Data);
     this.direction[1][1]=this.bot2clb(bot2_2Data);
+    this.direction = this.getDirections(this.direction);
     var botsQuant = 2;
     var gamesQuant = 2;
     for(var gameId = 0; gameId < gamesQuant; gameId++){

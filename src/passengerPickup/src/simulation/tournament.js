@@ -4,6 +4,7 @@ import level3 from './level3';
 import config from './config.json';
 import React, { Component } from 'react';
 import tableResult from './table-result';
+import { observer } from 'mobx-react';
 import Store from '../store';
 
 class Tournament extends Component {
@@ -52,4 +53,5 @@ class Tournament extends Component {
         );
       }
 }
-export default Tournament;
+//export default Tournament;
+export default observer(Tournament);

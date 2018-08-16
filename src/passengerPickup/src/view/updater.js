@@ -32,18 +32,23 @@ class Updater extends Component {
             switch(funcName){
                 case 'control':
                     Store.player1Func = control;
+                    Store.player1ControlSelected = 'manual control';
                     break;
                 case 'level1':
                     Store.player1Func = level1;
+                    Store.player1ControlSelected = 'level1';
                     break;
                 case 'level2':
                     Store.player1Func = level2;
+                    Store.player1ControlSelected = 'level2';
                     break;
                 case 'level3':
                     Store.player1Func = level3;
+                    Store.player1ControlSelected = 'level3';
                     break;
                 case 'custom code':
                     Store.player1Func = Store.func;
+                    Store.player1ControlSelected = 'custom code';
                     break;
                 default:
                     break
@@ -54,18 +59,23 @@ class Updater extends Component {
             switch(funcName){
                 case 'control':
                     Store.player2Func = control;
+                    Store.player2ControlSelected = 'manual control';
                     break;
                 case 'level1':
                     Store.player2Func = level1;
+                    Store.player2ControlSelected = 'level1';
                     break;
                 case 'level2':
                     Store.player2Func = level2;
+                    Store.player2ControlSelected = 'level2';
                     break;
                 case 'level3':
                     Store.player2Func = level3;
+                    Store.player2ControlSelected = 'level3';
                     break;
                 case 'custom code':
                     Store.player2Func = Store.func;
+                    Store.player2ControlSelected = 'custom code';
                     break;
                 default:
                     break;
@@ -109,34 +119,44 @@ class Updater extends Component {
     setPlayer(value, playerId){
         switch(value){
             case 'level1':
-                if(playerId==1)
+                if(playerId==1){
                     Store.player1Func = level1;
-                else
+                    Store.player1ControlSelected = 'level1';}
+                else{
                     Store.player2Func = level1;
+                    Store.player2ControlSelected = 'level1';}
                 break;
             case 'level2':
-                if(playerId==1)
+                if(playerId==1){
                     Store.player1Func = level2;
-                else
+                    Store.player1ControlSelected = 'level2';}
+                else{
                     Store.player2Func = level2;
+                    Store.player2ControlSelected = 'level2';}
                 break;
             case 'level3':
-                if(playerId==1)
+                if(playerId==1){
                     Store.player1Func = level3;
-                else
+                    Store.player1ControlSelected = 'level3';}
+                else{
                     Store.player2Func = level3;
+                    Store.player2ControlSelected = 'level3';}
                 break;
             case 'custom code':
-                if(playerId==1)
+                if(playerId==1){
                     Store.player1Func = Store.func;
-                else
+                    Store.player1ControlSelected = 'custom code';}
+                else{
                     Store.player2Func = Store.func;
+                    Store.player2ControlSelected = 'custom code';}
                 break;
             case 'manual control':
-                if(playerId==1)
+                if(playerId==1){
                     Store.player1Func = control;
-                else
+                    Store.player1ControlSelected = 'manual control';}
+                else{
                     Store.player2Func = control;
+                    Store.player2ControlSelected = 'manual control';}
                 break;
         }
     }
@@ -180,20 +200,25 @@ class Updater extends Component {
         switch(e.target.value){
             case 'level1':
                 Store.player1Func = level1;
+                Store.player1ControlSelected = 'level1';
                 break;
             case 'level2':
                 Store.player1Func = level2;
+                Store.player1ControlSelected = 'level2';
                 break;
             case 'level3':
                 Store.player1Func = level2;
+                Store.player1ControlSelected = 'level3';
                 break;
             case 'custom code':
                 if(typeof Store.func == 'string')
                     Store.func = eval("("+Store.func+")");
                 Store.player1Func = Store.func;
+                Store.player1ControlSelected = 'custom code';
                 break;
             case 'manual control':
                 Store.player1Func = control;
+                Store.player1ControlSelected = 'manual control';
                 break;
         }
         this.restartGame();
@@ -207,20 +232,25 @@ class Updater extends Component {
         switch(e.target.value){
             case 'level1':
                 Store.player2Func = level1;
+                Store.player2ControlSelected = 'level1';
                 break;
             case 'level2':
                 Store.player2Func = level2;
+                Store.player2ControlSelected = 'level2';
                 break;
             case 'level3':
                 Store.player2Func = level2;
+                Store.player2ControlSelected = 'level3';
                 break;
             case 'custom code':
                 if(typeof Store.func == 'string')
                     Store.func = eval("("+Store.func+")");
                 Store.player2Func = Store.func;
+                Store.player2ControlSelected = 'custom code';
                 break;
             case 'manual control':
                 Store.player2Func = control;
+                Store.player2ControlSelected = 'manual control';
                 break;
         }
         this.restartGame();

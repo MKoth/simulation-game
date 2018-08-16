@@ -7,6 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/mode/python';
 import 'brace/theme/github';
 import { defaultJavascriptFunctionCode, defaultPythonCodeFunction } from './Components/defaultCode';
+import { observer } from 'mobx-react';
 
 class CodeEditor extends Component {
     constructor(props) {
@@ -103,7 +104,8 @@ class CodeEditor extends Component {
         const { updatedCode, mode, jsCode } = this.state;
         const code = mode === 'python' ? updatedCode : jsCode;
         return (
-            <div style={{position:'absolute', top:'100%'}} className={"editorContainer"}>
+            <div>
+            {(Store.player1ControlSelected=='custom code'||Store.player2ControlSelected=='custom code')&&<div style={{position:'absolute', top:'100%'}} className={"editorContainer"}>
                 <h4 style={{ margin: '4px' }}>
                     Write <b className="active-text">{mode.toUpperCase()}</b> Code Here :{' '}
                 </h4>
@@ -166,9 +168,10 @@ class CodeEditor extends Component {
                     <h4>Python Console</h4>
                     <textarea id="python-console" className="res" />
                 </div>
+            </div>}
             </div>
         );
     }
 }
 
-export default CodeEditor;
+export default observer(CodeEditor);

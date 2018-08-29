@@ -108,7 +108,6 @@ function Simulation(config, bot1clb, bot2clb){
     this.generateCollectives();
 
     document.addEventListener('keydown', (e) => {
-        //console.log(this.score);
         var gamesQuant = 2;
         for(var gameId = 0; gameId < gamesQuant; gameId++){
             if(e.key==this.config['player'+(gameId+1)+'Keys'].up){

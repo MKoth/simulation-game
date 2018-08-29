@@ -3,7 +3,7 @@ function Simulation(config, bot1clb, bot2clb){
     this.bot1clb = bot1clb;
     this.bot2clb = bot2clb;
     if(!this.config.width||typeof this.config.width!="number"){
-        this.config.width = 2000;
+        this.config.width = 800;
     }
     if(!this.config.height||typeof this.config.height!="number"){
         this.config.height = 800;
@@ -64,19 +64,74 @@ function Simulation(config, bot1clb, bot2clb){
         ]
     ];
     this.score = [0,0];
+    this.controlInfo = {keyPressed:["up", "up"], current:[0,0]};
     this.direction = [[{down:true}, {right:true}],[{down:true}, {right:true}]];
     this.directionsArr = [{"up":true},{"down":true},{"left":true},{"right":true}];
-}
 
+    document.addEventListener('keydown', (e) => {
+        var gamesQuant = 2;
+        for(var gameId = 0; gameId < gamesQuant; gameId++){
+            if(e.key==this.config['player'+(gameId+1)+'Keys'].up){
+                this.controlInfo.keyPressed[gameId] = "up";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].down){
+                this.controlInfo.keyPressed[gameId] = "down";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].left){
+                this.controlInfo.keyPressed[gameId] = "left";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].right){
+                this.controlInfo.keyPressed[gameId] = "right";
+            }
+            else if(e.key==this.config['player'+(gameId+1)+'Keys'].switch){
+                this.controlInfo.current[gameId]=(this.controlInfo.current[gameId]==0?1:0);
+            }
+        }
+    });
+}
+Simulation.prototype.getDirections       = function(direction){
+    var botsQuant = 2;
+    var gamesQuant = 2;
+    for(var gameId = 0; gameId < gamesQuant; gameId++){
+        for(var botId = 0; botId < botsQuant; botId++){
+            if(typeof direction[gameId][botId] === 'string'){
+                switch(direction[gameId][botId].toUpperCase()){
+                    case 'LEFT':
+                        direction[gameId][botId] = {left:true};
+                        break;
+                    case 'RIGHT':
+                        direction[gameId][botId] = {right:true};
+                        break;
+                    case 'UP':
+                        direction[gameId][botId] = {up:true};
+                        break;
+                    case 'DOWN':
+                        direction[gameId][botId] = {down:true};
+                        break;
+                }
+            }
+        }
+    }
+    return direction;
+}
 Simulation.prototype.simulate = function(){
-    var bot1_1Data = {player:this.bots[0][0], collectives:this.collectives[0]};
-    var bot1_2Data = {player:this.bots[0][1], collectives:this.collectives[0]};
-    var bot2_1Data = {player:this.bots[1][0], collectives:this.collectives[1]};
-    var bot2_2Data = {player:this.bots[1][1], collectives:this.collectives[1]};
+    var bot1_1Data = {
+        player:this.bots[0][0], collectives:this.collectives[0], direction: this.direction[0][0], index:0, config: this.config, gameId: 0, controlInfo: this.controlInfo
+    };
+    var bot1_2Data = {
+        player:this.bots[0][1], collectives:this.collectives[0], direction: this.direction[0][1], index:1, config: this.config, gameId: 0, controlInfo: this.controlInfo
+    };
+    var bot2_1Data = {
+        player:this.bots[1][0], collectives:this.collectives[1], direction: this.direction[1][0], index:0, config: this.config, gameId: 1, controlInfo: this.controlInfo
+    };
+    var bot2_2Data = {
+        player:this.bots[1][1], collectives:this.collectives[1], direction: this.direction[1][1], index:1, config: this.config, gameId: 1, controlInfo: this.controlInfo
+    };
     this.direction[0][0]=this.bot1clb(bot1_1Data);
     this.direction[0][1]=this.bot1clb(bot1_2Data);
     this.direction[1][0]=this.bot2clb(bot2_1Data);
     this.direction[1][1]=this.bot2clb(bot2_2Data);
+    this.direction = this.getDirections(this.direction);
     var botsQuant = 2;
     var gamesQuant = 2;
     for(var gameId = 0; gameId < gamesQuant; gameId++){
@@ -88,7 +143,7 @@ Simulation.prototype.simulate = function(){
     this.collectCollectives();
     this.moveCharacters();
     this.generateCollectives();
-    return {player1:this.score[0],player2:this.score[1], bots: this.bots, collectives: this.collectives };
+    return {player1:this.score[0],player2:this.score[1], score:this.score, bots: this.bots, collectives: this.collectives, direction: this.direction};
 }
 
 Simulation.prototype.generateCollectives = function(){
@@ -105,13 +160,14 @@ Simulation.prototype.generateCollectives = function(){
     var gameWidth = this.config.width;
     var gameHeight = this.config.height;
     var size = this.config.collectiveSize;
+    var playerSize = this.config.playerSize;
     var stonesQuant = Math.floor(Math.random() * (max - min + 1) + min);
     for (var i = 0; i < stonesQuant; i++) {
         var stoneObj = { x: 0, y: 0 };
         stoneObj.x =
-            Math.floor(Math.random() * (gameWidth / size - 0) + 0) * size;
+            Math.floor(Math.random() * (gameWidth / playerSize -  - 0) + 0) * playerSize;
         stoneObj.y =
-            Math.floor(Math.random() * (gameHeight / size - 0) + 0) * size;
+            Math.floor(Math.random() * (gameHeight / playerSize - 0) + 0) * playerSize;
         stoneObj.size = size;
         stoneObj = JSON.stringify(stoneObj);
         if(this.collectives[0].indexOf(stoneObj)==-1)
@@ -191,4 +247,4 @@ Simulation.prototype.collectCollectives = function(){
     }
 }
 
-//module.exports = Simulation;
+module.exports = Simulation;
